@@ -5,5 +5,6 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
 MANAGE_PY="$SCRIPT_DIR/manage.py"
 
 python -m pip install --upgrade pip
+python -m pip install -r "$SCRIPT_DIR/requirements.txt"
 python "$MANAGE_PY" collectstatic --no-input
 python "$MANAGE_PY" migrate
