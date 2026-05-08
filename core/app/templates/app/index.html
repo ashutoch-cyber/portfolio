@@ -1091,6 +1091,63 @@ body {
     transform: translateY(-3px);
 }
 
+/* Mobile Menu */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    width: 30px;
+    height: 20px;
+    position: relative;
+}
+.mobile-menu-btn span {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--color-text);
+    transition: 0.3s;
+    left: 0;
+}
+.mobile-menu-btn span:nth-child(1) { top: 0; }
+.mobile-menu-btn span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.mobile-menu-btn span:nth-child(3) { bottom: 0; }
+
+.mobile-menu-btn.active span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.active span:nth-child(3) { bottom: 50%; transform: translateY(-50%) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #f6ebd9;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-100%);
+    transition: transform 0.4s var(--transition-smooth);
+}
+.mobile-menu.active {
+    transform: translateY(0);
+}
+.mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
+.mobile-nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 32px;
+    font-weight: 500;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .hero-grid {
@@ -1127,43 +1184,88 @@ body {
     .container {
         padding: 0 20px;
     }
-    
+    .header {
+        padding: 20px 0;
+    }
+    .logo {
+        max-width: 200px;
+    }
+    .mobile-menu-btn { display: block; }
     .nav {
         display: none;
     }
-    
     .hero-title {
-        font-size: 60px;
+        font-size: 48px;
+        margin-bottom: 30px;
     }
-    
+    .hero-image {
+        max-width: 100%;
+    }
+    .section-title {
+        font-size: 40px;
+    }
+    .contact-title {
+        font-size: 40px;
+    }
     .service-item {
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 30px 0;
     }
-    
+    .service-num {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
     .work-item {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
-    
     .work-num {
         position: relative;
         top: 0;
-        font-size: 60px;
+        font-size: 48px;
     }
-    
+    .work-name {
+        font-size: 24px;
+    }
+    .work-overlay {
+        display: none;
+    }
+    .about-left h2 {
+        font-size: 40px;
+    }
+    .skills-title {
+        font-size: 32px;
+    }
     .skills-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
-    
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
-    
     body {
         cursor: auto;
     }
-    
     .cursor-follower {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-grid {
+        gap: 20px;
+    }
+    .hero-title {
+        font-size: 36px;
+    }
+    .btn-primary {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
     }
 }
 
@@ -1359,7 +1461,21 @@ body {
                     <a href="#about">About</a>
                     <a href="#contact">Contact</a>
                 </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </header>
+
+            <div class="mobile-menu">
+                <nav class="mobile-nav">
+                    <a href="#services">Services</a>
+                    <a href="#works">Works</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
 
             <div class="hero-content">
                 <h1 class="hero-title">
@@ -1925,6 +2041,27 @@ window.addEventListener("load", () => {
 });
 
 
+
+// Mobile menu toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const mobileMenu = document.querySelector('.mobile-menu');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuBtn.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+}
 </script>
 </body>
 </html>
